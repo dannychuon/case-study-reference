@@ -1,0 +1,11 @@
+version: '3'
+services:
+  news-verification-service:
+    hostname: news-verification-service
+    container_name: news-verification-service
+    build: .
+    volumes:
+      - ./webservice:/webservice
+    ports:
+      - "8080:5001"
+    command: ["gunicorn", "-b", "0.0.0.0:5001", "-w", "4", "webservice.wsgi:app"]

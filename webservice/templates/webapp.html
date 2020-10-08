@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge, chrome=1"/>
+  <script>
+    "use strict";
+
+    function submitForm(oFormElement) {
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        document.getElementById("response").innerHTML = xhr.response;
+      } // success case
+      xhr.onerror = function() {
+        document.getElementById("response").innerHTML = xhr.response;
+      } // failure case
+      xhr.open(oFormElement.method, oFormElement.action, true);
+      xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      xhr.send(JSON.stringify(Object.fromEntries(new FormData(oFormElement))));
+      return false;
+    }
+
+  </script>
+</head>
+
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  /* Create two equal columns that floats next to each other */
+  .column {
+    float: left;
+    padding: 10px;
+  }
+
+  /* Clear floats after the columns */
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  textarea {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+textarea {
+	resize: none;
+	padding: 1em;
+}
+</style>
+</head>
+<body>
+
+<h2>News Checking Service </h2>
+<form method="post" action="http://127.0.0.1:5000/api/v1/news-checker" enctype='application/json' onsubmit="return submitForm(this);">
+
+  <div class="row">
+    <div class="column">
+
+      <label for="title">Title</label>
+      <br>
+      <textarea id="title" name="title" rows="2" cols="70" style="width:25%;overflow:auto;" placeholder="Title of the article"></textarea>
+      <br>
+      <br>
+
+      <label for="subject">Subject</label>
+      <select id="subject" name="subject">
+        <option value='politicsNews'>Politics News</option>
+        <option value='left-news'>Left News</option>
+        <option value='politics'>Politics</option>
+        <option value='worldnews'>World News</option>
+        <option value='News'>General News</option>
+        <option value='Middle-east'>Middle East</option>
+        <option value='Government News'>Government News</option>
+        <option value='US_News'>US News</option>
+      </select>
+      <br>
+      <br>
+
+
+      <label for="date">Publication date</label>
+      <input type="date" id="date" name="date"
+       value="2018-07-22"
+       min="2018-01-01" max="2020-10-06">
+      <br>
+      <br>
+
+      <label for="text">Text article</label>
+      <br>
+      <textarea id="text" name="text" rows="20" cols="700" style="width:25%;overflow:auto;" placeholder="Enter the text of your article here" required></textarea>
+      <br>
+      <br>
+    </div>
+
+  </div>
+  <input type="submit" value="Submit">
+  <p id="response"></p>
+
+</form>
+
+</body>
+</html>
